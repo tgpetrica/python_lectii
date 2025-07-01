@@ -1,0 +1,2 @@
+Aceasta este prima mea linie scrisa intr-un fisier cu Python!
+Am actualizat fisierul!
