@@ -1,0 +1,5 @@
+Nume: Popescu
+Prenume: Ion
+Varsta: 19
+Functia: Programator Junior
+Salariul: 3500
