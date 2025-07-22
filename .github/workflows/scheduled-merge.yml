@@ -1,0 +1,30 @@
+name: Scheduled Merge
+
+on:
+  schedule:
+    - cron: '00 16 29 07 *'
+  workflow_dispatch:
+
+jobs:
+  merge-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Fetch branch to merge
+        run: |
+          git fetch origin resolve_TPA_11
+
+      - name: Merge resolve_TPA_11 into main
+        run: |
+          git merge origin/resolve_TPA_11
+          git push origin main
