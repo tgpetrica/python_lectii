@@ -4,7 +4,8 @@ root = tk.Tk()
 root.title("Cronometru")
 root.geometry("300x300")
 
-label = tk.Label(root, text = "0 s", font = ("Arial", 16)).pack(pady = 20)
+label = tk.Label(root, text = "0 s", font = ("Arial", 16))
+label.pack(pady = 20)
 
 time = 0
 running = False # cronometrul nu functioneaza
@@ -26,10 +27,11 @@ def reset_timer():
     label.config(text = "0 s")
 
 def update():
-    pass
-
-# daca cronometrul functioneaza, se actualizeaza valoarea lui time la fiecare secunda.
-# se foloseste after(1000, update) si se actualizeaza afisajul din label
+    global time
+    if running:
+        time += 1
+        label.config(text = f"{time} s")
+        root.after(1000, update)
 
 btn_start = tk.Button(root, text = "Start", width = 10, command = start_timer).pack(pady = 5)
 
