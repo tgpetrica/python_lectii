@@ -1,1 +1,4 @@
 z_lectia*.py
+*.zip
+*.7z
+__pycache__/
