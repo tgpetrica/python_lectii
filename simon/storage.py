@@ -15,7 +15,7 @@ def citeste_highscore():
     
 def scrie_highscore(val):
     try:
-        f = open(NUME_FISIER, "r", encoding = "utf-8")
+        f = open(NUME_FISIER, "w", encoding = "utf-8")
         f.write(str(val))
         f.close()
     except:
