@@ -74,6 +74,8 @@ class SimonSaysUI:
         
         self.info.pack()
 
+        self.leaga_evenimente()
+
     def start_joc(self):
         self.game.start()
         self.buton_start.config(state = "disabled")
@@ -99,22 +101,45 @@ class SimonSaysUI:
         self.stinge(culoare)
         self.root.after(250, self.afiseaza_secventa, index + 1)
 
-    def verifica_input():
-        # verificarea secventei de culori date de utilizator cu ajutorul mouse-ului
-        pass
+    def verifica_input(self, culoare):
+        if not self.game.joc_inceput:
+            return
 
-    def actualizeaza_scor():
-        # modifica scorul curent si highscore
-        pass
+        corect, runda_completa = self.game.inregistrare_input(culoare)
+
+        if not corect:
+            self.game_over()
+            return
+        
+        self.aprinde(culoare)
+        self.root.after(200, self.stinge, culoare)
+
+        if runda_completa:
+            self.actualizeaza_scor()
+            self.root.after(500, self.pasul_urmator)
+
+    def actualizeaza_scor(self):
+        if self.game.scor > self.highscore:
+            self.highscore = self.game.scor
+            storage.scrie_highscore(self.highscore)
+
+        self.scor_label.config(text = "Scor: " + 
+                                str(self.game.scor) +
+                                "     |   Highscore: " +
+                                str(self.highscore))
     
-    def pasul_urmator():
-        # adaugarea unui nou pas si afisarea secventei de la inceput
-        pass
+    def pasul_urmator(self):
+        self.game.adauga_pas()
+        self.afiseaza_secventa(index = 0)
 
-    def game_over():
-        # blocarea executiei aplicatiei si afisarea unui messagebox de tip eroare
-        pass
+    def game_over(self):
+        self.game.joc_inceput = False
+        mesaj = "Ai pierdut! Scor final " + str(self.game.scor)
+        messagebox.showinfo("Game over!", mesaj)
+        self.buton_start.config(state = "normal")
 
-    def leaga_evenimente():
-        # conectarea evenimentelor (metodelor)
-        pass
+    def leaga_evenimente(self):
+        for culoare, item in self.butoane.items():
+            def handler(event, c = culoare):
+                self.verifica_input(c)
+            self.canvas.tag_bind(item, "<Button-1>", handler)
